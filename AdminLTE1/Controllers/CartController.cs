@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 
@@ -210,6 +212,8 @@ namespace AdminLTE1.Controllers
             if (result != null)
             {
                 var userid = _userManager.GetUserId(HttpContext.User);
+                var mail = _userManager.Users.Where(x => x.Id == userid).FirstOrDefault().Email;
+
                 var cartItems = _api.Cart.Where(x => x.UserId == userid).ToList();
                 var productList = _api.ClassMenu.ToList();
 
@@ -235,16 +239,16 @@ namespace AdminLTE1.Controllers
                     _api.SaveChanges();
                 }
 
-
                 //Delete cart
                 var all = _api.Cart.ToList();
                 _api.Cart.RemoveRange(all);
                 _api.SaveChanges();
 
-                //Update status of order
-                var ord = _api.Order.FirstOrDefault();
-                ord.Status = "Completed";
-                _api.SaveChanges();
+
+                //EmailSender(mail, "Hello");
+
+
+
                 try
                 {
                     PaymentDetail lst = new PaymentDetail();
@@ -295,6 +299,28 @@ namespace AdminLTE1.Controllers
             }
             return View();
         }
+
+        //public bool EmailSender(string email, string content)
+        //{
+        //    string fromMail = "bhanubagra78@gmail.com";
+        //    string fromPassword = "neyj lekn sygf tifd";
+
+        //    MailMessage message = new MailMessage();
+        //    message.From = new MailAddress(fromMail);
+        //    message.To.Add(new MailAddress(email));
+        //    message.Body = "<html><body> " + content + " </body></html>";
+        //    message.IsBodyHtml = true;
+
+        //    var smtpClient = new SmtpClient("smtp.gmail.com")
+        //    {
+        //        Port = 587,
+        //        Credentials = new NetworkCredential(fromMail, fromPassword),
+        //        EnableSsl = true,
+        //    };
+        //    smtpClient.Send(message);
+
+        //    return true;
+        //}
 
     }
 }
