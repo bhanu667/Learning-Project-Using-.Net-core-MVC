@@ -1,0 +1,12 @@
+﻿@model AdminLTE1.Models.Book
+@{
+    ViewData["Title"] = "Description";
+}
+
+<h1>Description</h1>
+@foreach (var item in @ViewBag.desc)
+{
+    @Html.Raw(item.Description);
+}
+
+<a href="javascript:window.history.back()" class="btn btn-primary">Back</a>

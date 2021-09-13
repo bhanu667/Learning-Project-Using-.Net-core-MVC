@@ -1,0 +1,241 @@
+﻿@model AdminLTE1.ViewModels.BookCourseTeacherViewModel
+@{
+    ViewBag.Title = "Add Teacher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link href="~/css/slick.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+    <style>
+        .carousel {
+            background: #2f4357;
+            margin-top: 20px;
+        }
+
+        .carousel-item {
+            text-align: center;
+            min-height: 280px; /* Prevent carousel from being distorted if for some reason image doesn't load */
+        }
+    </style>
+    <style>
+        .LinkStyle li {
+            padding-right: 30px;
+        }
+
+        .cartItemStyle {
+            background: red;
+            border-radius: 50%;
+            padding: 1px 6px;
+            color: white;
+        }
+        .carousel-box {
+            height: 200px;
+            box-shadow: 2px 3px 4px grey;
+            background: antiquewhite;
+            margin: 5px 5px;
+        }
+        .carousel-box1 {
+            height: 230px;
+            box-shadow: 2px 3px 4px grey;
+            background: antiquewhite;
+            margin: 5px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row pull-right" style="padding-top: 10px !important; text-align:right;">
+        <button type="button" class="btn btn-primary" id="enrollBtn" style="float:right; clear:both;">Enroll</button>
+    </div>
+    <div class="row" style="padding-top: 10px !important;margin-left: 12%;">
+
+        @foreach (var item in Model.course)
+        {
+            <div class="col-lg-2 col-6">
+                <!-- small box -->
+                <div class="small-box" style="width: 125px;">
+                    <div class="inner" style="text-align: center;">
+                        <h4>@item.CourseName</h4>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul id="members-reviews-listing">
+                @foreach (var item in Model.book)
+                {
+                    <li class="col-sm-4 carousel-box1">
+                        <div class="inner">
+                            <img id="@item.BookImage" style="height:80px; object-fit:cover; margin-top:15px; border-radius: 5px;" src="~/Images/@item.BookImage">
+                        </div>
+                        <div class="inner" style="margin:10px 0px;">
+                            <b>Book Name: </b> @item.BookName
+                        </div>
+                        <div class="inner" style="margin-bottom: 10px;">
+                            <b>Author:  </b>@item.Author
+                        </div>
+                        <div class="inner">
+                           <a href="~/ClassItem/Description/@item.BookId" class="btn btn-primary btn-sm">Description</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul id="members-reviews">
+                @foreach (var item in Model.teacher)
+                {
+                    <li class="col-sm-4 carousel-box">
+                        <div class="inner">
+                            <img id="@item.TeacherImage" style="height:100px; object-fit:cover; margin-top:5px;" src="~/Images/@item.TeacherImage">
+                        </div>
+                        <div class="inner">
+                            <b> Teacher Name: </b>@item.TeacherName
+                        </div>
+                        <div class="inner">
+                            <b> Author: </b>@item.Subject
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script src="~/js/slick.min.js"></script>
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("#enrollBtn").click(function () {
+                    $.ajax({
+                        url: '/AddUSer/UserExist',
+                        type: 'GET',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        error: function (xhr) {
+                        },
+                        success: function (result) {
+                            debugger;
+                            if (result) {
+                                $.get("/Cart/CourseExist", {classId : @ViewBag.ClassId}, function (data) {
+                                    if (data) {
+                                        alert("Course already exist in Cart. Plz check Cart section." + data)
+                                    }
+                                    else {
+                                        $.ajax({
+                                            url: '/Cart/AddToCart',
+                                            type: 'GET',
+                                            data: { classId :  parseInt(@ViewBag.ClassId)},
+                                            dataType: 'json',
+                                            contentType: 'application/json',
+                                            error: function (xhr) {
+                                                alert('Error: ' + xhr.statusText);
+                                            },
+                                            success: function (result) {
+
+                                                $("#cartItem").text("");
+                                                $.get("/Cart/CartItem", null, function (data) {
+                                                    if (data != false) {
+                                                        $("#cartItem").text(data);
+                                                        $("#cartItem").addClass("cartItemStyle");
+                                                    }
+                                                    else {
+                                                        $("#cartItem").text();
+                                                        $("#cartItem").removeClass("cartItemStyle");
+                                                    }
+                                                });
+
+                                                alert("Product Added");
+                                            },
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                window.location.href = '/Identity/Account/Login';
+                            }
+                        },
+
+                    });
+                });
+            });
+</script>
+
+<script type="text/javascript">
+    $('#members-reviews-listing').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        nav: true,
+        responsive: [
+            {
+                breakpoint: 1025,
+                settings: {
+                    slidesToShow: 1.1
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1.05
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+    });
+</script>
+<script type="text/javascript">
+    $('#members-reviews').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        nav: true,
+        responsive: [
+            {
+                breakpoint: 1025,
+                settings: {
+                    slidesToShow: 1.1
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1.05
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+    });
+</script>
+
+
+
+

@@ -1,0 +1,50 @@
+﻿@model List<AdminLTE1.Models.Course>
+
+@{
+    ViewBag.Title = "All Courses";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>All Users</h1>
+<div class="input-group" style="float: right; display: block;margin: 10px;">
+    <a href="@Url.Action("AddCourse","Course")" class="btn btn-primary" style="float:right">Add Course</a>
+</div>
+<table class="table table-striped" id="MyDataTable">
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Course Name</th>
+            <th>Course ClassId</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int index = 1;}
+        @foreach (var cour in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>@cour.CourseName</td>
+                <td>@cour.CourseClassId</td>                
+                <td><a href="@Url.Action("EditCourse","Course", new { Id = cour.CourseId })" class="btn btn-primary">Edit</a></td>
+                <td> <a href="@Url.Action("DeleteCourse","Course", new { Id = cour.CourseId })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete user : @cour.CourseName')">Delete</a></td>
+
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+    <script>
+            $(document).ready(function () {
+                $("#MyDataTable").DataTable();
+            }
+            )
+    </script>
+}

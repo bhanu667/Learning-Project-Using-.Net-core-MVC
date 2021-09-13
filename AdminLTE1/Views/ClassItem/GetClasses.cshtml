@@ -1,0 +1,75 @@
+﻿@model IEnumerable<AdminLTE1.Models.ClassMenu>
+@{
+    ViewBag.Title = "All Classes";
+}
+@if (ViewBag.successMessage != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> @ViewBag.successMessage
+    </div>
+}
+@if (Model.Any())
+{
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header">
+                <a class="btn btn-primary" style="width:auto"
+                   asp-controller="ClassItem" asp-action="CreateClass">
+                    Create Class
+                </a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Name</th>
+                            <th>Path</th>
+                            <th>ParentId</th>
+                            <th>Price</th>                            
+                            <th>Edit</th>                            
+                            <th>Delete</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var menu in Model)
+                        {
+                            <tr>
+                                <td>@menu.Id</td>
+                                <td>@menu.Name</td>
+                                <td>@menu.Path</td>
+                                <td>@menu.ParentId</td>
+                                <td>@menu.Price</td>
+                                <td><a href="@Url.Action("EditClass","ClassItem",new { Id=menu.Id})" class="btn btn-primary">Edit</a></td>
+                                <td><a href="@Url.Action("DeleteClass","ClassItem",new {Id=menu.Id})" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No menu created yet
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Use the button below to create a menu
+            </h5>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary" style="width:auto"
+               asp-controller="Permission" asp-action="CreateMenu">
+                Create Menu
+            </a>
+        </div>
+    </div>
+}

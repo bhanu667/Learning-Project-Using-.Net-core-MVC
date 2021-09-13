@@ -1,0 +1,70 @@
+﻿@model AdminLTE1.Models.Teacher
+@{
+    ViewData["Title"] = "EditPage";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Edit Page</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div asp-validation-summary="All" class="text-danger">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="TeacherId" />
+                        <label asp-for="TeacherName"></label>
+                        <input asp-for="TeacherName" class="form-control">
+                        <span asp-validation-for="TeacherName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TeacherClassId"></label>
+                        <input asp-for="TeacherClassId" class="form-control">
+                        <span asp-validation-for="TeacherClassId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Subject"></label>
+                        <input asp-for="Subject" class="form-control">
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>
+
+                    @*<div class="form-group">
+                        <label asp-for="Subject"></label>
+                        <textarea asp-for="Subject" id="Description" name="Description" rows="200"></textarea>
+                        <span asp-validation-for="Subject" class="text-danger"></span>
+                    </div>*@
+                    <div class="form-group">
+                        <label asp-for="TeacherImageFile"></label>
+                        @if (Model.TeacherImage != null)
+                        {
+                            <img style="width:100px;height:100px; object-fit:cover" src="~/Images/@Model.TeacherImage">
+                        }
+                        <input asp-for="TeacherImageFile" class="form-control" type="file" />
+                        <span asp-validation-for="TeacherImageFile" class="text-danger"></span>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" asp-controller="Teacher" asp-action="TeacherList" class="btn btn-primary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>$(document).ready(function () {
+
+            //CKEDITOR.replace('#Description');
+
+        }
+        )</script>
+}

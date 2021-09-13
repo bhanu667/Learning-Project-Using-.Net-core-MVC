@@ -1,0 +1,63 @@
+﻿@model List<AdminLTE1.Models.Book>
+
+@{
+    ViewBag.Title = "All Books";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>All Users</h1>
+<div class="input-group" style="float: right; display: block;margin: 10px;">
+    <a href="@Url.Action("AddBook","Book")" class="btn btn-primary" style="float:right">Add Book </a>
+</div>
+<table class="table table-striped" id="MyDataTable">
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Book Name</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Book ClassId</th>
+            <th>IsActive</th>
+            <th>Book Image</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{int index = 1;}
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@index</td>
+                <td>@book.BookName</td>
+                <td>@book.Author</td>
+                <td>@book.Description</td>
+                <td>@book.BookClassId</td>
+                <td>@book.IsActive</td>
+                <td>
+                    @if (book.BookImage != null)
+                    {
+                        <img style="width:100px;height:100px; object-fit:cover" src="~/Images/@book.BookImage">
+                    }
+                </td>
+                <td><a href="@Url.Action("EditBook","Book", new { Id = book.BookId })" class="btn btn-primary">Edit</a></td>
+                <td> <a href="@Url.Action("DeleteBook","Book", new { Id = book.BookId })" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete user : @book.BookName')">Delete</a></td>
+
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+    <script>
+            $(document).ready(function () {
+                $("#MyDataTable").DataTable();
+            }
+            )
+    </script>
+}

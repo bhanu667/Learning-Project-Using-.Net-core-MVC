@@ -1,0 +1,51 @@
+﻿@model AdminLTE1.Models.Course
+@{
+    ViewData["Title"] = "EditPage";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Edit Course</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div asp-validation-summary="All" class="text-danger">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="CourseId" />
+                        <label asp-for="CourseName"></label>
+                        <input asp-for="CourseName" class="form-control">
+                        <span asp-validation-for="CourseName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CourseClassId"></label>
+                        <input asp-for="CourseClassId" class="form-control">
+                        <span asp-validation-for="CourseClassId" class="text-danger"></span>
+                    </div>                    
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" asp-controller="Course" asp-action="CourseList" class="btn btn-primary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+$(document).ready(function () {
+
+            //CKEDITOR.replace('#Description');
+
+        }
+        )</script>
+}

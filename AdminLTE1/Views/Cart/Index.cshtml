@@ -1,0 +1,137 @@
+﻿@model List<AdminLTE1.ViewModels.CartClassMenuViewModel>
+@{
+    var totalItem = 0;
+    var totalPrice = 0.0;
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .clr {
+            clear: both
+        }
+
+        h6 {
+            display: inline;
+            margin: 0px 30px;
+        }
+
+        .outerDiv {
+            width: 500px;
+            height: 150px;
+            margin-bottom: 20px;
+            margin-left: 100px;
+            padding: 20px;
+            box-shadow: -2px 1px 9px grey;
+        }
+
+        .innerLeft {
+            width: 200px;
+            height: -webkit-fill-available;
+            text-align: center;
+            padding-top: 30px;
+            border-right: solid 1px black;
+            padding-right: 30px;
+        }
+
+        .rightInner {
+            text-align: center;
+            width: 260px;
+        }
+
+            .rightInner h4 {
+                display: inline;
+                margin: 0px 30px;
+            }
+
+        .totalPrice {
+            margin-right: 180px;
+            box-shadow: -2px 1px 9px grey;
+            width: 370px;
+            height: 250px;
+            padding: 40px 50px;
+        }
+
+            .totalPrice h5 {
+                margin: 15px 0px;
+            }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    @if (Model != null && Model.Count()>0)
+    {
+        <h2 style="margin-left: 50px; padding: 30px 0px;">Cart Details</h2>
+
+        <div class="left">
+            @foreach (var item in Model)
+            {
+                var price = item.Quantity * item.Price;
+                totalItem = totalItem + item.Quantity;
+                totalPrice = totalPrice + Convert.ToDouble(price);
+                <div class="outerDiv">
+                    <div class="left innerLeft">
+                        <img style="width:185px;height:85px; padding-bottom: 10px; object-fit:cover" src="~/Images/class.jpg" />
+                    </div>
+                    <div class="right rightInner">
+                        <h3>Class : @item.Name</h3>
+                        <h5>Course Price : @price</h5>
+                        <div>
+                            <button class="btn" onclick='window.location.href = "@Url.Action("AddCart", "Cart", new { classId = item.ClassId, operation="remove", quantity = item.Quantity })"'><i class="fa fa-minus-square" style="font-size:25px;"></i></button>
+                            <h4>@item.Quantity</h4>
+                            <button class="btn" onclick='window.location.href = "@Url.Action("AddCart", "Cart", new { classId = item.ClassId, operation="add", quantity = item.Quantity })"'><i class="fa fa-plus-square" style="font-size:25px;"></i></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="right totalPrice">
+            <div class="">
+                <h3>Final Price</h3>
+                <h5>Total Prize : <i class="fa fa-rupee"></i> @totalPrice  only</h5>
+                <h5>Total Item : @totalItem</h5>
+
+                <form method="post" asp-controller="cart" asp-action="checkout">
+                    <button type="submit" class="btn btn-primary btn-sm">Buy now</button>
+                    <input type="hidden" name="total" value="@totalPrice" />
+                </form>
+            </div>
+        </div>
+        <div class="clr"></div>
+    }
+    else
+    {
+        <h1 style="text-align:center; padding-top:200px;">Cart is empty, Plz Login or Add Products to Cart</h1>
+    }
+</body>
+</html>
+@*<script>
+
+    function AddOrRemove(classId, operation, qty) {
+        debugger;
+        $.ajax({
+            url: '/Cart/AddCart',
+            type: 'GET',
+            data: { classId: classId, operation: operation, quantity: qty },
+            dataType: 'json',
+            contentType: 'application/json',
+            error: function (xhr) {
+                alert('Error: ' + xhr.statusText);
+            },
+            success: function (result) {
+                //alert("Product Added");
+            },
+        });
+    }
+</script>*@

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AdminLTE1.ViewModels.PermissionViewModelEx>
+
+
+
+
+
+    @{ foreach (var firstItem in Model)
+        {
+            @if (firstItem.Path == null)
+            {
+                <li class="nav-item">
+                    @foreach (var secondItem in (Model.Where(s => s.ParentId == firstItem.Id).ToList()))
+                    {
+                        <a href="@secondItem.Path/@secondItem.Id" class="nav-link">
+
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>@secondItem.Name</p>
+                        </a>
+                    }
+                </li>
+            }
+        }
+    }
+
+
+
+
+    @*@{ foreach (var firstItem in Model)
+        {
+            @if (firstItem.Path == null)
+            {
+                <li class="nav-item">
+                    <a href="@firstItem.Path" class="nav-link">
+                        <i class="fas fa-circle nav-icon"></i>
+                        <p>@firstItem.Name</p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @foreach (var secondItem in (Model.Where(s => s.ParentId == firstItem.Id).ToList()))
+                        {
+                            <li class="nav-item">
+                                <a href="@secondItem.Path" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>@secondItem.Name</p>
+                                </a>
+
+                            </li>
+                        }
+                    </ul>
+
+                </li>
+            }
+        }
+    }*@
+
+
+
+
+
