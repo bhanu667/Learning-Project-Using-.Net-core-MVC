@@ -76,6 +76,32 @@ namespace AdminLTE1.Controllers
 
         public IActionResult OrderDetail()
         {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            if (userId != null)
+            {
+                    var orders = (from o in _api.Order.Where(x => x.UserId == userId)
+                                  join od in _api.OrderDtl
+                                  on o.OrderId equals od.OrdId
+                                  join c in _api.ClassMenu
+                                  on od.ClassId equals c.Id
+                                  select new OrdViewModel
+                                  {
+                                      OrderId = o.OrderId,
+                                      UserId = o.UserId,
+                                      Status = o.Status,
+                                      TotalAmount = o.TotalAmount,
+                                      CreatedDate = o.CreatedDate,
+                                      Name = c.Name,
+                                      Quantity = od.Quantity,
+                                      Amount = od.Amount
+                                  }).ToList();
+                    return View(orders);
+            }
+            return View();
+        }
+
+         public IActionResult IncDwnl()
+        {
            List<OrderViewModel> listOrder = new List<OrderViewModel>();
             var userId = _userManager.GetUserId(HttpContext.User);
             if (userId != null)
@@ -116,8 +142,10 @@ namespace AdminLTE1.Controllers
                     listOrder.Add(odr);  
                 }
             }
-            return View(listOrder);
+            return new ViewAsPdf("IncDwnl", listOrder);
         }
+
+
         public JsonResult AddToCart(int classId)
         {
             Cart cObj = new Cart();

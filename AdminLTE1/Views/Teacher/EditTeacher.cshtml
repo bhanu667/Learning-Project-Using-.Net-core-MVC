@@ -35,12 +35,12 @@
                         <input asp-for="Subject" class="form-control">
                         <span asp-validation-for="Subject" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="Degree"></label>
+                        <input asp-for="Degree" class="form-control">
+                        <span asp-validation-for="Degree" class="text-danger"></span>
+                    </div>
 
-                    @*<div class="form-group">
-                        <label asp-for="Subject"></label>
-                        <textarea asp-for="Subject" id="Description" name="Description" rows="200"></textarea>
-                        <span asp-validation-for="Subject" class="text-danger"></span>
-                    </div>*@
                     <div class="form-group">
                         <label asp-for="TeacherImageFile"></label>
                         @if (Model.TeacherImage != null)

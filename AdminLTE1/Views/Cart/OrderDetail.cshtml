@@ -1,228 +1,57 @@
-﻿@model List<AdminLTE1.ViewModels.OrderViewModel>
+﻿@model List<AdminLTE1.ViewModels.OrdViewModel>
+
 @{
-    //ViewData["Title"] = "Invoice";
+    ViewBag.Title = "All Orders";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
-
-@*<a asp-action="InvoicePdf" asp-controller="Cart" asp-route-id="@Model.Id"
-   class="btn btn-primary" style="width:auto">Download Invoice</a>*@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <style>
-
-        .invoice-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-            color: #555;
-        }
-
-            .invoice-box table {
-                width: 100%;
-                line-height: inherit;
-                text-align: left;
-            }
-
-                .invoice-box table td {
-                    padding: 5px;
-                    vertical-align: top;
-                }
-
-                .invoice-box table tr td:nth-child(2) {
-                    text-align: right;
-                }
-
-                .invoice-box table tr.top table td {
-                    padding-bottom: 20px;
-                }
-
-                    .invoice-box table tr.top table td.title {
-                        font-size: 45px;
-                        line-height: 45px;
-                        color: #333;
-                    }
-
-                .invoice-box table tr.information table td {
-                    padding-bottom: 40px;
-                }
-
-                .invoice-box table tr.heading td {
-                    background: #eee;
-                    border-bottom: 1px solid #ddd;
-                    font-weight: bold;
-                }
-
-                .invoice-box table tr.details td {
-                    padding-bottom: 20px;
-                }
-
-                .invoice-box table tr.item td {
-                    border-bottom: 1px solid #eee;
-                }
-
-                .invoice-box table tr.item.last td {
-                    border-bottom: none;
-                }
-
-                .invoice-box table tr.total td:nth-child(2) {
-                    border-top: 2px solid #eee;
-                    font-weight: bold;
-                }
-
-
-
-                .invoice-box table tr.information table td {
-                    width: 100%;
-                    display: block;
-                    text-align: center;
-                }
-
-        }
-
-        /** RTL **/
-        .invoice-box.rtl {
-            direction: rtl;
-            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        }
-
-            .invoice-box.rtl table {
-                text-align: right;
-            }
-
-                .invoice-box.rtl table tr td:nth-child(2) {
-                    text-align: left;
-                }
-    </style>
-</head>
-<body>
-    @if (Model.Count() >0)
-    {
-        <h2 style="margin-left: 50px; padding: 30px 0px;">Cart Details</h2>
-        @foreach (var item in Model)
+<h1>All Orders</h1>
+<table class="table table-striped" id="MyDataTable">
+    <thead>
+        <tr>
+            <th>OrderId</th>
+            <th>OrderDate</th>
+            <th>Class Name</th>
+            <th>Quantity</th>
+            <th>Per Class Price</th>
+            <th>Class Total Price</th>
+            <th>Total Amount</th>
+            <th>Invoice</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() > 0)
         {
-            <div class="invoice-box">
-                <table cellpadding="0" cellspacing="0">
-                    <tr class="top">
-                        <td colspan="2">
-                            <table>
-                                <tr>
-                                    <td class="title">
-                                        <img src="https://ems.dotsquares.com/content/images/logo.png" style="width: 100%; max-width: 300px" />
-                                    </td>
-
-                                    <td>
-                                        Invoice #: @item.SampleId.<br />
-                                        Created:  @item.CreatedDate
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr class="information">
-                        <td colspan="2">
-                            <table>
-                                <tr>
-                                    <td class="text-left">
-                                        Billing To:<br />
-                                        Dotsquares Technology.<br />
-                                        Jhalana dungari<br />
-                                        Jaipur(Rajasthan)
-                                    </td>
-                                    <td class="text-right">
-                                        Shipping Address:<br />
-                                        @if (!string.IsNullOrEmpty(item.ShippingAddress))
-                                        {
-                                            @item.ShippingAddress
-                                        }
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr class="heading">
-                        <td>Payment Method</td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.PaymentMethod))
-                            {
-                                @item.PaymentMethod
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-
-                            @foreach (var cls in item.orderDtl)
-                            {
-                            <table style="border:1px solid black;">
-                                <tr class="heading">
-                                    <td>Class Name</td>
-                                    <td>
-                                        @cls.ClassName
-                                    </td>
-                                </tr>
-                                <tr class="total">
-                                    <td>Quantity</td>
-                                    <td>
-                                        @cls.Quantity
-                                    </td>
-                                </tr>
-                                <tr class="heading">
-                                    <td>Class Price</td>
-                                    <td>
-                                        @cls.Amount
-                                    </td>
-                                </tr>
-                                <tr class="heading">
-                                    <td>Class Total Price</td>
-                                    <td>
-                                        @(cls.Amount*cls.Quantity)
-                                    </td>
-                                </tr>
-
-                            </table>
-
-                                <table>
-                                    <tr>
-                                        <td colspan="2"><br /></td>
-                                    </tr>
-                                </table>
-                            }
-
-                        </td>
-                    </tr>
-                    <tr class="heading">
-                        <td>Transaction Fee</td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.TransactionFee))
-                            {
-                                @item.TransactionFee
-                            }
-                        </td>
-                    </tr>
-
-                    <tr class="total">
-                        <td>Total Amount</td>
-                        <td>
-                            @item.TotalAmount
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.OrderId</td>
+                    <td>@item.CreatedDate</td>
+                    <td>@item.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Amount</td>
+                    <td>@(item.Amount * item.Quantity)</td>
+                    <td>@item.TotalAmount</td>
+                    <td><a asp-action="IncDwnl" asp-controller="Cart"
+                            class="btn btn-primary" style="width:90px;">Download Invoice</a></td>
+                </tr>
             }
-    }
-    else
-    {
-            <h1 style="text-align:center; padding-top:200px;">There is no item to display</h1>
-    }
-           
- </body>
-</html>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/af-2.3.7/datatables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#MyDataTable").DataTable();
+        }
+        )
+    </script>
+}
+
+
 

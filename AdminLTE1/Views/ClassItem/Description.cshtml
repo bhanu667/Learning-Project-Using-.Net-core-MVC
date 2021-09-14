@@ -4,9 +4,35 @@
 }
 
 <h1>Description</h1>
-@foreach (var item in @ViewBag.desc)
+@*@foreach (var item in @ViewBag.desc)
 {
     @Html.Raw(item.Description);
-}
+}*@
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="members-reviews-listing">
+            @foreach (var item in @ViewBag.desc)
+            {
+                <div class="col-sm-4">
+                    <div class="inner">
+                        <img id="@item.BookImage" style="height:300px; width:500px; object-fit:cover; margin-top:15px;margin-left:200px; border-radius: 5px;" src="~/Images/@item.BookImage"><br /><br />
+                    </div>
+                    <div class="inner" style="margin:10px 0px;font-size:20px;">
+                        <b style="font-size:25px;">Book Name: </b> @item.BookName
+                    </div>
+                    <div class="inner" style="margin-bottom: 10px;font-size:20px;">
+                        <b style="font-size:25px;">Author:  </b>@item.Author
+                    </div>
+                    <div class="inner" style="margin-bottom: 10px;font-size:20px;">
+                        <b style="font-size:25px;">Description:  </b>@Html.Raw(item.Description)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
 
 <a href="javascript:window.history.back()" class="btn btn-primary">Back</a>

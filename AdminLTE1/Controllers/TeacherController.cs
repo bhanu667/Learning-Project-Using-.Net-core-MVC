@@ -43,7 +43,8 @@ namespace AdminLTE1.Controllers
                 TeacherName = result.FirstOrDefault().TeacherName,
                 TeacherClassId = result.FirstOrDefault().TeacherClassId,
                 Subject = result.FirstOrDefault().Subject,
-                TeacherImage = result.FirstOrDefault().TeacherImage
+                TeacherImage = result.FirstOrDefault().TeacherImage,
+                Degree = result.FirstOrDefault().Degree
             };
             return View(model);
         }
@@ -59,7 +60,9 @@ namespace AdminLTE1.Controllers
                     teacher.FirstOrDefault().TeacherName = model.TeacherName;
                     teacher.FirstOrDefault().TeacherClassId = model.TeacherClassId;
                     teacher.FirstOrDefault().Subject = model.Subject;
+                    teacher.FirstOrDefault().Degree = model.Degree;
                     var TeacherImage = teacher.FirstOrDefault().TeacherImage;
+
 
                     if (model.TeacherImageFile != null)
                     {
@@ -115,7 +118,6 @@ namespace AdminLTE1.Controllers
 
         public IActionResult AddTeacher()
         {
-            // RegisterModel model = new RegisterModel();
             return View();
         }
 
@@ -128,6 +130,7 @@ namespace AdminLTE1.Controllers
                 obj.TeacherName = model.TeacherName;
                 obj.Subject = model.Subject;
                 obj.TeacherClassId = model.TeacherClassId;
+                obj.Degree = model.Degree;
                 if (model.TeacherImageFile != null)
                 {
                     string wwwRootPath = _hostEnvironment.WebRootPath;
@@ -140,7 +143,6 @@ namespace AdminLTE1.Controllers
                 }
                 _context.Teacher.Add(obj);
                 _context.SaveChanges();
-                //return RedirectToAction("TeacherList");
             }
             return Json("Added Successfully");
         }

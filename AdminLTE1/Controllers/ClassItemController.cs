@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdminLTE1.Models;
 using AdminLTE1.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminLTE1.Controllers
@@ -11,14 +12,20 @@ namespace AdminLTE1.Controllers
     public class ClassItemController : Controller
     {
         private readonly AddDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClassItemController(AddDbContext context)
+        public ClassItemController(AddDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }      
 
-        public IActionResult Class8(int id)
+        public IActionResult Class(int id)
         {
+
+            var userId = _userManager.GetUserId(HttpContext.User);
+            @ViewBag.price = _context.ClassMenu.Where(x => x.Id == id).FirstOrDefault().Price;
+            ViewBag.button = _context.Cart.Where(x => x.ClassId == id && x.UserId == userId).ToList();
             BookCourseTeacherViewModel obj = new BookCourseTeacherViewModel();
             obj.book = (from c in _context.ClassMenu
                         join b in _context.Book.Where(r=>r.BookClassId==id)
@@ -46,6 +53,7 @@ namespace AdminLTE1.Controllers
                            {
                                TeacherName = t.TeacherName,
                                Subject = t.Subject,
+                               Degree = t.Degree,
                                TeacherImage = t.TeacherImage
                            }).ToList();
             ViewBag.ClassId = id;

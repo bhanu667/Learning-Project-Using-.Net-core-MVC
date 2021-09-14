@@ -39,7 +39,12 @@
             padding: 1px 6px;
             color: white;
         }
-    </style>
+        /*.ul {
+            background-color: transparent !important;
+            color: #c2c7d0 !important;
+        }*/
+       
+    </style>l
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -74,8 +79,7 @@
                     </div>
                 </li>
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                @*<li>@Html.ActionLink("Class", "class8", "ClassItem")</li>*@
-                <li><a href="/ClassItem/class8/2">Class</a></li>
+                <li><a href="/ClassItem/class/2">Class</a></li>
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <li>@Html.ActionLink("Cart", "Index", "Cart") <span id="cartItem"></span> </li>
@@ -103,10 +107,10 @@
             <div class="sidebar">
                 <!-- Sidebar Menu -->
                 <nav class="mt-2" style="padding-top: 60px; font-size:30px; font-size: large;">
-                    <ul class="nav nav-sidebar flex-column" role="menu" data-accordion="false">
+                    <ul class="nav nav-sidebar flex-column " role="menu" data-accordion="false">
                             @await Component.InvokeAsync("MegaMenu")
-                    </ul>
-                </nav>
+                        </ul>
+</nav>
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->

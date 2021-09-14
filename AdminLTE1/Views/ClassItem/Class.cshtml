@@ -54,9 +54,21 @@
     </style>
 </head>
 <body>
-    <div class="row pull-right" style="padding-top: 10px !important; text-align:right;">
-        <button type="button" class="btn btn-primary" id="enrollBtn" style="float:right; clear:both;">Enroll</button>
-    </div>
+  
+    <div class="row pull-right" style="padding-top: 10px !important;">
+        @if (ViewBag.button.Count > 0)
+        {
+            <div><span>Already Enrolled. Please Check Cart</span></div>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary" id="enrollBtn" style="float:right; clear:both;">Enroll</button>
+        }
+
+    </div><br />
+        
+
+    <p style="font-size: 21px;">Class Price:<span style="color:chocolate;"> @ViewBag.price </span></p>
     <div class="row" style="padding-top: 10px !important;margin-left: 12%;">
 
         @foreach (var item in Model.course)
@@ -91,7 +103,7 @@
                             <b>Author:  </b>@item.Author
                         </div>
                         <div class="inner">
-                           <a href="~/ClassItem/Description/@item.BookId" class="btn btn-primary btn-sm">Description</a>
+                            <a href="~/ClassItem/Description/@item.BookId" class="btn btn-primary btn-sm">Description</a>
                         </div>
                     </li>
                 }
@@ -111,7 +123,10 @@
                             <b> Teacher Name: </b>@item.TeacherName
                         </div>
                         <div class="inner">
-                            <b> Author: </b>@item.Subject
+                            <b> Subject: </b>@item.Subject
+                        </div>
+                        <div class="inner">
+                            <b> Degree: </b>@item.Degree
                         </div>
                     </li>
                 }
@@ -152,7 +167,7 @@
                                                 alert('Error: ' + xhr.statusText);
                                             },
                                             success: function (result) {
-
+                                                $("#enrollBtn").replaceWith("<div><span>Already Enrolled. Please Check Cart</span></div>");
                                                 $("#cartItem").text("");
                                                 $.get("/Cart/CartItem", null, function (data) {
                                                     if (data != false) {

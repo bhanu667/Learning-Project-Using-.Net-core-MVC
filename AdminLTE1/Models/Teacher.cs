@@ -21,5 +21,6 @@ namespace AdminLTE1.Models
         [Required(ErrorMessage = "Please Fill BannerImage.")]
         [NotMapped]
         public IFormFile TeacherImageFile { get; set; }
+        public string Degree { get; set; }
     }
 }
